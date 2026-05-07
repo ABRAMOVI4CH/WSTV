@@ -75,7 +75,7 @@ body::after {
 .fullscreen-carousel-track {
   display: flex;
   height: 100%;
-  width: 300vw;
+  width: 400vw;
   transform: translateX(0);
   transition: transform 0.65s cubic-bezier(0.25, 0.82, 0.22, 1);
   will-change: transform;
@@ -94,7 +94,8 @@ body::after {
   align-items: center;
   justify-content: center;
 }
-.fullscreen-slide-photo img {
+.fullscreen-slide-photo img,
+.fullscreen-slide-photo video {
   width: 100%;
   height: 100%;
   object-fit: contain;
@@ -761,6 +762,9 @@ body::after {
     <div class="fullscreen-slide fullscreen-slide-photo">
       <img src="Main2.png" alt="" />
     </div>
+    <div class="fullscreen-slide fullscreen-slide-photo">
+      <video src="Main3.mp4" autoplay muted loop playsinline></video>
+    </div>
   </div>
 </div>
 
@@ -778,11 +782,18 @@ setInterval(updateClock, 1000);
   var track = document.getElementById('fullscreen-carousel-track');
   if (!track) return;
   var i = 0;
-  var n = 3;
-  setInterval(function () {
-    i = (i + 1) % n;
-    track.style.transform = 'translateX(-' + i * 100 + 'vw)';
-  }, 15000);
+  var n = 4;
+  var msMainToSecond = 60000;
+  var msOther = 15000;
+  function step() {
+    var delay = i === 0 ? msMainToSecond : msOther;
+    setTimeout(function () {
+      i = (i + 1) % n;
+      track.style.transform = 'translateX(-' + i * 100 + 'vw)';
+      step();
+    }, delay);
+  }
+  step();
 })();
 </script>
 </body>
